@@ -9,5 +9,4 @@ build
 application-oauth.properties
 application
 
-/gradle/
 /src/main/resources/application.properties
