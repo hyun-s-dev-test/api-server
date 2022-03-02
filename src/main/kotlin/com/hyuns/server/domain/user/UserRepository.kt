@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface UserRepository: JpaRepository<User, Int> {
-    fun findByPk(pk: Int): User?
+    fun findByPk(pk: Int): User
 }

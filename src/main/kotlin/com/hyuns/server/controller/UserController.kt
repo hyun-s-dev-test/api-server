@@ -2,6 +2,7 @@ package com.hyuns.server.controller
 
 import com.hyuns.server.domain.user.UserRepository
 import com.hyuns.server.domain.user.User
+import com.hyuns.server.service.UserService
 import io.swagger.annotations.Api
 import io.swagger.annotations.ApiOperation
 import io.swagger.annotations.ApiResponse
@@ -14,8 +15,9 @@ import org.springframework.web.bind.annotation.*
 @RestController
 @RequestMapping("/api/user")
 class UserController (
-    val userRepository: UserRepository
+    private val userService: UserService
 ){
+
 
     @ApiOperation("유저 전체 조회 API")
     @ApiResponses(
@@ -25,10 +27,12 @@ class UserController (
     )
     @GetMapping()
     fun getAllUsersInfo(): ResponseEntity<*> {
-        val users = userRepository.findAll()
+        val users = userService.getAllUsers()
 
-        return ResponseEntity.ok(users)
+        return if (users.isEmpty()) ResponseEntity<String>("조회된 결과가 없습니다.", HttpStatus.NO_CONTENT)
+        else ResponseEntity.ok(users)
     }
+
 
     @ApiOperation("유저 1명 조회 API")
     @ApiResponses(
@@ -38,10 +42,12 @@ class UserController (
     )
     @GetMapping("/{pk}")
     fun getUserInfoByPk(@PathVariable pk: Int): ResponseEntity<*> {
-        val user = userRepository.findByPk(pk)
+        val user = userService.getUserByPk(pk)
 
-        return ResponseEntity.ok(user?:"해당하는 유저가 없습니다.")
+        return if (user == null) ResponseEntity<String>("조회된 결과가 없습니다.", HttpStatus.NO_CONTENT)
+        else ResponseEntity.ok(user)
     }
+
 
     @ApiOperation("유저 추가 API")
     @ApiResponses(
@@ -51,7 +57,7 @@ class UserController (
     )
     @PostMapping()
     fun addUser(@RequestBody user: User): ResponseEntity<*> {
-        val res = userRepository.save(user)
+        val res = userService.save(user)
 
         return ResponseEntity.ok(res)
     }
