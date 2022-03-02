@@ -60,8 +60,7 @@ jobs:
       run: |
         aws s3 cp \
         --region ap-northeast-2 \
-        --acl private \
-        ./springboot-intro-build.zip s3://0woodev-springboot-bucket
+        ./springboot-intro-build.zip s3://0woodev-springboot-bucket/springboot-intro-build.zip
         
     - name: Deploy
       env:
