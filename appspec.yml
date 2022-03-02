@@ -4,7 +4,7 @@ files:
   - source: /
     destination: /opt/loginapp
 permissions:
-  - object: /opt/testapp/
+  - object: /opt/loginapp/
     owner: ubuntu
     group: ubuntu
     mode: 755
