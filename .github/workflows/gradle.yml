@@ -25,6 +25,7 @@ jobs:
       with:
         java-version: '11'
         distribution: 'temurin'
+        
     - name: Setup MySQL
       uses: samin/mysql-action@v1
       with:
@@ -32,26 +33,28 @@ jobs:
         mysql database: 'login'
         mysql user: 'root'
         mysql password: ${{ secrets.MYSQL_DATABASE_PASSWORD }}
+        
     - name: Grant execute permission for gradlew
-      run: chmod +x ./gradlew
+      run: chmod +x gradlew
       
     - name: Build with Gradle
       run: ./gradlew clean build
       
-    - name: Make Directory for deliver
-      run: mkdir deploy
-    - name: Copy Jar
-      run: cp ./build/libs/*.jar ./deploy/
+#     - name: Make Directory for deliver
+#       run: mkdir deploy
       
-    - name: Make zip file
-      run: zip -r -qq -j ./springboot-intro-build.zip ./deploy
+#     - name: Copy Jar
+#       run: cp ./build/libs/*.jar ./deploy/
       
-    - name: Deliver to AWS S3
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-      run: |
-        aws s3 cp \
-        --region ap-northeast-2 \
-        --acl private \
-        ./springboot-intro-build.zip s3://0woodev-springboot-bucket
+#     - name: Make zip file
+#       run: zip -r -qq -j ./springboot-intro-build.zip ./deploy
+      
+#     - name: Deliver to AWS S3
+#       env:
+#         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#       run: |
+#         aws s3 cp \
+#         --region ap-northeast-2 \
+#         --acl private \
+#         ./springboot-intro-build.zip s3://0woodev-springboot-bucket
