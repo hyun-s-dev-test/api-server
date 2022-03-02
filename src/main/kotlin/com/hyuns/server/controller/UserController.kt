@@ -44,8 +44,7 @@ class UserController (
     fun getUserInfoByPk(@PathVariable pk: Int): ResponseEntity<*> {
         val user = userService.getUserByPk(pk)
 
-        return if (user == null) ResponseEntity<String>("조회된 결과가 없습니다.", HttpStatus.NO_CONTENT)
-        else ResponseEntity.ok(user)
+        return ResponseEntity.ok(user)
     }
 
 
