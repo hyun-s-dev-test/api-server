@@ -51,7 +51,7 @@ jobs:
       
       
     - name: Make zip file
-      run: zip -r -qq -j ./$GITHUB_SHA.zip ./deploy
+      run: zip -r -qq -j ./springboot-intro-build.zip ./deploy
       
     - name: Deliver to AWS S3
       env:
@@ -61,7 +61,7 @@ jobs:
         aws s3 cp \
         --region ap-northeast-2 \
         --acl private \
-        ./$GITHUB_SHA.zip s3://0woodev-springboot-bucket
+        ./springboot-intro-build.zip s3://0woodev-springboot-bucket
         
     - name: Deploy
       env:
@@ -72,5 +72,5 @@ jobs:
         --application-name loginapp \
         --deployment-group-name dev \
         --file-exists-behavior OVERWRITE \
-        --s3-location bucket=0woodev-springboot-bucket,bundleType=zip,key=$GITHUB_SHA.zip \
+        --s3-location bucket=0woodev-springboot-bucket,bundleType=zip,key=springboot-intro-build.zip \
         --region ap-northeast-2
